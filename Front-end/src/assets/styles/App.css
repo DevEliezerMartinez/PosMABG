@@ -1,3 +1,9 @@
-body {
-  background-color: #fffbf5 !important;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;600;800&display=swap');
+
+.FontMontserrat{
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.bckgLogin{
+  background-image: url("../images/mabg.jpeg") !important;
 }
