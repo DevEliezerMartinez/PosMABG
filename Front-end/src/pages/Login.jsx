@@ -4,11 +4,21 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import "../assets/styles/App.css";
 import { CardContent, Grid, TextField } from "@mui/material";
-
-import { styled } from "@mui/material/styles";
+import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 
 function Login() {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const notistack = (message) => {
+    enqueueSnackbar(message, {
+      variant: "error",
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "right",
+      },
+    });
+  };
   // Hook form
 
   const {
@@ -18,9 +28,27 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    let url = "http://localhost:5000/login";
 
-  console.log(watch("example")); // watch input value by passing the name of it
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .catch((error) => console.log("Errors:", error))
+      .then((response) => {
+        console.log(": ",response);
+        if (response[1] != 200) {
+         
+          notistack(response.mensaje);
+         
+        }
+      });
+  };
 
   const flexContainerStyles = {
     display: "flex",
@@ -77,8 +105,7 @@ function Login() {
                 sx={flexContainerStyles}
               >
                 <TextField
-                  id="standard-basic"
-                  label="usuario"
+                  label="Usuario"
                   variant="standard"
                   {...register("usuario", {
                     required: {
@@ -90,7 +117,7 @@ function Login() {
                       message: "El campo debe contener al menos 3 caracteres.",
                     },
                     pattern: {
-                      value:  /^[a-zA-Z0-9_.-]+$/,
+                      value: /^[a-zA-Z0-9_.-]+$/,
                       message: "Caracteres no validos",
                     },
                   })}
@@ -100,7 +127,6 @@ function Login() {
 
                 <TextField
                   sx={{ mt: 3 }}
-                  id="standard-basic"
                   type="password"
                   label="Password"
                   {...register("password", {
@@ -113,7 +139,7 @@ function Login() {
                       message: "El campo debe contener al menos 3 caracteres.",
                     },
                     pattern: {
-                      value:  /^[a-zA-Z0-9_.-]+$/,
+                      value: /^[a-zA-Z0-9_.-]+$/,
                       message: "Caracteres no validos",
                     },
                   })}

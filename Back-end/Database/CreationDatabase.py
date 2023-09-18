@@ -14,6 +14,8 @@ try:
                         password VARCHAR(50),
                         picture TEXT,
                         role_id INTEGER,
+                        username VARCHAR(50),
+                        password VARCHAR](50),
                         FOREIGN KEY (role_id) REFERENCES Roles(id)
                       )''')
 
