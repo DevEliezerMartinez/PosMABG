@@ -20,24 +20,21 @@ def login():
     conn = sqlite3.connect('../Back-end/Database/MABG.db')
     cursor = conn.cursor()
 
-
     try:
         data = request.get_json()
         username = data['usuario']
         password = data['password']
 
-       
-
-       
         cursor.execute("SELECT * FROM Users WHERE username=?", (username,))
         user = cursor.fetchone()
-        print(user)
+
+        user_data = {'name': user[1], 'pictureUrl': user[2], 'role':user[3], 'username': user[5] }
+        print(user_data)
         if not user:
             return jsonify({'mensaje': 'No existe ese usuario'}), 404
 
-        # Supongamos que el hash de la contraseña se almacena en la columna 3 (índice 2)
         if user[4] == password:
-            return jsonify({'mensaje': 'Inicio de sesion correctamente'}, 200)
+            return jsonify({'user_data': user_data,  'mensaje': 'Inicio de sesion correctamente'}, 200)
 
         return jsonify({'mensaje': 'Inicio de sesion fallido'}), 401
 
@@ -47,8 +44,6 @@ def login():
         return jsonify({'error': str(e)}), 500
     finally:
         conn.close()
-
-
 
 
 if __name__ == '__main__':
