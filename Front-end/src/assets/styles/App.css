@@ -1,7 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;600;800&display=swap');
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../fonts/newFonts/Montserrat/static/Montserrat-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
-.FontMontserrat{
-  font-family: 'Montserrat', sans-serif !important;
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../fonts/newFonts/Montserrat/static/Montserrat-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/newFonts/Montserrat/static/Montserrat-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .bckgLogin{

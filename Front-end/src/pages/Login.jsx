@@ -41,11 +41,9 @@ function Login() {
       .then((res) => res.json())
       .catch((error) => console.log("Errors:", error))
       .then((response) => {
-        console.log(": ",response);
+        console.log(": ", response);
         if (response[1] != 200) {
-         
           notistack(response.mensaje);
-         
         }
       });
   };
@@ -81,21 +79,12 @@ function Login() {
           />
 
           <Grid sx={{ mt: 20, padding: 3, ml: 10 }} item lg={4}>
-            <CardContent container>
-              <Typography
-                className="FontMontserrat"
-                variant="h4"
-                component="h3"
-              >
+            <CardContent >
+              <Typography variant="h4" component="h3">
                 Inicio de sesión para
               </Typography>
 
-              <Typography
-                sx={{ fontWeight: 600 }}
-                className="FontMontserrat"
-                variant="h6"
-                component="h3"
-              >
+              <Typography sx={{ fontWeight: 600 }} variant="h6" component="h3">
                 Veterinaria MABG
               </Typography>
 
