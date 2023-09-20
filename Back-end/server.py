@@ -17,18 +17,21 @@ def login():
 
     print("Login")
 
+    conn = sqlite3.connect('../Back-end/Database/MABG.db')
+    cursor = conn.cursor()
+
+
     try:
         data = request.get_json()
         username = data['usuario']
         password = data['password']
 
-        print(username, "--", password)
+       
 
-        conn = sqlite3.connect('../Back-end/Database/MABG.db')
-        cursor = conn.cursor()
-
+       
         cursor.execute("SELECT * FROM Users WHERE username=?", (username,))
         user = cursor.fetchone()
+        print(user)
         if not user:
             return jsonify({'mensaje': 'No existe ese usuario'}), 404
 

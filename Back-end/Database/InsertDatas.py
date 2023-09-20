@@ -14,7 +14,7 @@ try:
 
     #cursor.execute("INSERT INTO Products(id,name,category,unitaryPrice,quantity,dateExpiry,discount,cost)VALUES (1,'Paracetamol','Analgesicos',50.5,10,'10/12/23',0,25)")
     #cursor.execute("INSERT INTO Products(id,name,category,unitaryPrice,quantity,dateExpiry,discount,cost)VALUES (2,'Doloneurobion','Analgesicos',20.5,10,'11/10/2032',0,15)")
-    #cursor.execute("INSERT INTO Products(id,name,category,unitaryPrice,quantity,dateExpiry,discount,cost)VALUES (3,'Paracitol','Desparacitantes',40.8,10,'19/11/23',0,20)")
+    cursor.execute("INSERT INTO Products(name,category,unitaryPrice,quantity,dateExpiry,discount,cost)VALUES ('Paracitol','Desparacitantes',40.8,10,'19/11/23',0,20)")
 
 
     
