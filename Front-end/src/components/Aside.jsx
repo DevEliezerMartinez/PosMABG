@@ -6,6 +6,7 @@ import Activetab from "./Activetab";
 import SimpleTab from "./simpleTab";
 import UserPicture from "../assets/images/user.jpg";
 
+
 function Aside({ Tabs }) {
   console.log(Tabs);
   let user = "Eliezer Martinez";
