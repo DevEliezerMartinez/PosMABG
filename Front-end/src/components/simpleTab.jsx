@@ -19,6 +19,7 @@ function simpleTab({ tabname, Icon, path }) {
           alignItems: "center",
           borderRadius: "6px",
           transition: "0.2s",
+          textDecoration: "none",
         "&:hover": {
           transform: "scale(1.05)",
           backgroundColor :"rgba(251, 209, 155, 0.27)"
@@ -29,9 +30,9 @@ function simpleTab({ tabname, Icon, path }) {
         <img src={Icon} alt="Descripción" />
         <Typography
           textAlign="center"
-          variant="p"
+          variant="h6"
           flexGrow={1}
-          sx={{ fontWeight: 300 }}
+          sx={{ color: "white" }}
         >
           {tabname}
         </Typography>

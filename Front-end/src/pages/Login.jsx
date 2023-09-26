@@ -7,8 +7,17 @@ import { CardContent, Grid, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 
+import { useDispatch, useSelector } from "react-redux";
+import { updateData, deleteData } from "../features/Auth/AuthSlice";
+import {  useNavigate } from "react-router-dom";
+
+
 function Login() {
+  const navigate = useNavigate(); // Utiliza useNavigate en lugar de useHistory
+
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const elemento = useSelector((state) => state.userData.infoUser);
 
   const notistack = (message) => {
     enqueueSnackbar(message, {
@@ -24,7 +33,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
@@ -41,10 +49,18 @@ function Login() {
       .then((res) => res.json())
       .catch((error) => console.log("Errors:", error))
       .then((response) => {
-        console.log(": ", response);
+
         if (response[1] != 200) {
           notistack(response.mensaje);
+
         }
+        
+        console.log("---",response[0].user_data)
+         let fullUserData = response[0].user_data;
+        dispatch(updateData(fullUserData));
+        navigate("/sale"); // Utiliza navigate en lugar de history.push
+
+        
       });
   };
 
@@ -79,7 +95,7 @@ function Login() {
           />
 
           <Grid sx={{ mt: 20, padding: 3, ml: 10 }} item lg={4}>
-            <CardContent >
+            <CardContent>
               <Typography variant="h4" component="h3">
                 Inicio de sesión para
               </Typography>
@@ -155,3 +171,5 @@ function Login() {
 }
 
 export default Login;
+
+

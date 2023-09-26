@@ -5,13 +5,13 @@ function Cash_cut() {
   return (
     <Box
     sx={{
-       backgroundColor: "#F2F5F9",
+       backgroundColor: "#fafa",
        position: "absolute",
        left: "20%",
        width: "80%",
      }}
  >
-   Sale
+   <h1>caaaashhh</h1>
  </Box>
   )
 }

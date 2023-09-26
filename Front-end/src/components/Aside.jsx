@@ -8,7 +8,6 @@ import UserPicture from "../assets/images/user.jpg";
 
 
 function Aside({ Tabs }) {
-  console.log(Tabs);
   let user = "Eliezer Martinez";
   let username = "eliezer.code";
   let actualTab = "Perfiles";
@@ -20,11 +19,12 @@ function Aside({ Tabs }) {
       <Container
         theme={theme}
         sx={{
-          minHeight: "100vh",
+          height:"100vh",
           backgroundColor: "#F79009",
           width: "20%",
           position: "absolute",
           left: "0px",
+          color: "white",
         }}
       >
         <Typography sx={{ margin: 2 }} align="center" variant="h3">
@@ -32,13 +32,13 @@ function Aside({ Tabs }) {
         </Typography>
         <Typography
           align="center"
-          variant="h3"
+          variant="body1"
           sx={{ fontSize: "20px", marginY: 2 }}
         >
           Punto de venta
         </Typography>
 
-        <Paper sx={{ backgroundColor: "#F9AD49", my: 4, borderRadius: "6px" }}>
+        <Paper sx={{ backgroundColor: "#F9AD49", my: 4, borderRadius: "6px",  color: "white", }}>
           <Box sx={{ padding: 2, display: "flex", alignItems: "center" }}>
             <Avatar sx={{ width: 80, height: 80 }} src={UserPicture}></Avatar>
             <Box flexGrow="1">
@@ -49,7 +49,7 @@ function Aside({ Tabs }) {
               >
                 {user}
               </Typography>
-              <Typography textAlign="center" variant="h5">
+              <Typography textAlign="center" variant="body1">
                 @{username}
               </Typography>
             </Box>

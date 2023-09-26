@@ -34,6 +34,11 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: "Montserrat, sans-serif", // Fuente principal
+    h3: {
+      fontFamily: "Montserrat, sans-serif", // Cambiar la fuente para un estilo específico
+      fontSize: "2rem",
+      fontWeight: 600,
+    },
     h4: {
       fontFamily: "Poppins, sans-serif", // Cambiar la fuente para un estilo específico
       fontSize: "2rem",
@@ -42,17 +47,17 @@ const theme = createTheme({
     h5: {
       fontFamily: "Poppins, sans-serif", // Cambiar la fuente para un estilo específico
       fontSize: "1.4rem",
-      fontWeight: 600,
+      fontWeight: 300,
     },
     h6: {
       fontFamily: "Montserrat, sans-serif", // Cambiar la fuente para un estilo específico
-      fontSize: "2rem",
-      fontWeight: 600,
+      fontSize: "1rem",
+      fontWeight: 300,
     },
     body1: {
       fontFamily: "Montserrat, sans-serif", // Cambiar la fuente para un estilo específico
-      fontSize: "0.75rem",
-      fontWeight: 300,
+      fontSize: "1rem",
+      fontWeight: 200,
     },
     body2: {
       fontFamily: "Montserrat, sans-serif", // Cambiar la fuente para un estilo específico

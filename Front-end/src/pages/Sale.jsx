@@ -11,7 +11,7 @@ function Sale() {
           width: "80%",
         }}
     >
-      Sale
+      Saleeeeeeeeeeeeeeeee
     </Box>
   );
 }

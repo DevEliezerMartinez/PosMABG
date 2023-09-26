@@ -2,7 +2,7 @@ import React from "react";
 import Non_Authenticated from "../pages/Non_Authenticated";
 import { Navigate ,Outlet } from "react-router-dom";
 
-function ProtectedRoute({ isAllowed, children }) {
+function LoginRoute({ isAllowed, children }) {
 
   if (!isAllowed) {
     return <Non_Authenticated />;
@@ -11,4 +11,4 @@ function ProtectedRoute({ isAllowed, children }) {
   return children ? children : <Outlet />;
 }
 
-export default ProtectedRoute;
+export default LoginRoute;

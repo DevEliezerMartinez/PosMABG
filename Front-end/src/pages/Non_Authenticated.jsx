@@ -1,17 +1,28 @@
-import { Button, Container } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
 function Non_Authenticated() {
   return (
-    <div>
+    <Box
+      sx={{
+        backgroundColor: "#fafa",
+        position: "absolute",
+        left: "20%",
+        width: "80%",
+      }}
+    >
       <Container>
-        <h1>Debes iniciar sesión para continuar</h1>
+        <h1>No tienes acceso a esta seccion</h1>
+        <p>
+          Si creees que esto es un erroe intenta cerrar sesion e ingresar de
+          nuevo
+        </p>
         <Button component={NavLink} to={"/Login"} variant="contained">
           Continuar
         </Button>
       </Container>
-    </div>
+    </Box>
   );
 }
 
