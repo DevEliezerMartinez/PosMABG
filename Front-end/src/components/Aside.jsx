@@ -1,5 +1,7 @@
 import { Avatar, Box, Container, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
+
 
 import React from "react";
 import Activetab from "./Activetab";
@@ -8,8 +10,12 @@ import UserPicture from "../assets/images/user.jpg";
 
 
 function Aside({ Tabs }) {
-  let user = "Eliezer Martinez";
-  let username = "eliezer.code";
+  const elemento = useSelector((state) => state.userData.infoUser);
+  const imagenBase64 = elemento.pictureUrl;
+  const imagenSrc = `data:image/png;base64, ${imagenBase64}`;
+
+  let user = elemento.name;
+  let username = elemento.username;
   let actualTab = "Perfiles";
   const totalTabs = Tabs;
   const theme = useTheme();
@@ -40,7 +46,7 @@ function Aside({ Tabs }) {
 
         <Paper sx={{ backgroundColor: "#F9AD49", my: 4, borderRadius: "6px",  color: "white", }}>
           <Box sx={{ padding: 2, display: "flex", alignItems: "center" }}>
-            <Avatar sx={{ width: 80, height: 80 }} src={UserPicture}></Avatar>
+            <Avatar sx={{ width: 80, height: 80 }} src={imagenSrc}></Avatar>
             <Box flexGrow="1">
               <Typography
                 textAlign="center"

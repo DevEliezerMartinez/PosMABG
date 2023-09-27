@@ -140,7 +140,7 @@ function Login() {
                       message: "Este campo es requerido",
                     },
                     minLength: {
-                      value: 5,
+                      value: 3,
                       message: "El campo debe contener al menos 3 caracteres.",
                     },
                     pattern: {
