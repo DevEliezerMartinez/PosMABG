@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
+import base64
 
 
 app = Flask(__name__)
@@ -34,9 +35,11 @@ def login():
             return jsonify({'mensaje': 'No existe ese usuario'}), 404
         
         rol = "Administrador" if user[3] <=2  else "Usuario"
+        with open(user[2], "rb") as image_file:
+          image_binary = base64.b64encode(image_file.read()).decode("utf-8")
 
 
-        user_data = {'name': user[1], 'pictureUrl': user[2],
+        user_data = {'name': user[1], 'pictureUrl': image_binary,
                      'role': rol, 'username': user[5]}
 
         if user[4] == password:
