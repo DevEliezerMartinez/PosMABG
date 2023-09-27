@@ -27,13 +27,17 @@ def login():
 
         cursor.execute("SELECT * FROM Users WHERE username=?", (username,))
         user = cursor.fetchone()
+        print(user)
 
         if not user:
             print("no user ")
             return jsonify({'mensaje': 'No existe ese usuario'}), 404
+        
+        rol = "Administrador" if user[3] <=2  else "Usuario"
+
 
         user_data = {'name': user[1], 'pictureUrl': user[2],
-                     'role': user[3], 'username': user[5]}
+                     'role': rol, 'username': user[5]}
 
         if user[4] == password:
             return jsonify({'user_data': user_data,  'mensaje': 'Inicio de sesion correctamente'}, 200)
