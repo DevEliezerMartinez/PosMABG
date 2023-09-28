@@ -36,13 +36,14 @@ const theme = createTheme({
     fontFamily: "Montserrat, sans-serif", // Fuente principal
     h3: {
       fontFamily: "Montserrat, sans-serif", // Cambiar la fuente para un estilo específico
-      fontSize: "2rem",
+      fontSize: "1rem",
       fontWeight: 600,
     },
     h4: {
       fontFamily: "Poppins, sans-serif", // Cambiar la fuente para un estilo específico
       fontSize: "2rem",
       fontWeight: 600,
+      margin: "1rem"
     },
     h5: {
       fontFamily: "Poppins, sans-serif", // Cambiar la fuente para un estilo específico

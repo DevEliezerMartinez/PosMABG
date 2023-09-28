@@ -26,21 +26,16 @@ import {
 import { useSelector } from "react-redux";
 
 import React from "react";
+import AddUsers from "../components/AddUsers";
 import UserCards from "../components/UserCards";
 
-const listUsers = [
-  {
-    name: "eliezer",
-    role: "admin",
-  },
-  {
-    name: "mera",
-    role: "user",
-  },
-];
 
 function Profile() {
   const dataUser = useSelector((state) => state.userData.infoUser);
+
+  const imagenBase64 = dataUser.pictureUrl;
+  const imagenSrc = `data:image/png;base64, ${imagenBase64}`;
+
   const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
@@ -55,8 +50,8 @@ function Profile() {
           position: "absolute",
           left: "20%",
           width: "80%",
-          p: 3,
-          maxHeight: "99vh"
+          p: 2,
+          height: "99vh",
         }}
       >
         <Typography variant="h4">Perfil</Typography>
@@ -71,87 +66,49 @@ function Profile() {
             margin: "auto",
             p: 2,
             justifyContent: "space-around",
+            mt: "1rem"
           }}
         >
           <CardMedia
             component="img"
             sx={{ width: 151, height: 151 }}
-            image={UserPicture}
+            image={imagenSrc}
             alt="Live from space album cover"
           ></CardMedia>
-          <CardContent>
-            <Typography>{dataUser.name}</Typography>
-            <Typography>@{dataUser.username}</Typography>
+          <CardContent
+            sx={{ width: "70%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}
+          >
+            <Typography
+              textAlign="center"
+              variant="h3"
+              sx={{ fontSize: "2rem" }}
+            >
+              {dataUser.name}
+            </Typography>
+            <Typography textAlign="center" variant="h6">
+              @{dataUser.username}
+            </Typography>
 
-            <Box>
-              <Typography>Rol: {dataUser.role}</Typography>
-              <Typography>Ultimo corte de caja: 19/12/2023</Typography>
-            </Box>
+            <Typography textAlign="center" color="primary" variant="h3">
+              Rol: {dataUser.role}
+            </Typography>
+            {/* <Typography variant="h3" sx={{ flexGrow: 1 }}>
+              Ultimo corte de caja:{" "}
+              <Typography sx={{ display: "inline" }} variant="body2">
+                {" "}
+                19/12/2023
+              </Typography>
+            </Typography> */}
           </CardContent>
-
-          <CardActions>
-            <Button size="small" variant="outlined">
-              Edit
-            </Button>
-          </CardActions>
         </Card>
 
-        <Divider sx={{ my: 3 }}></Divider>
 
-        <Typography sx={{ my: 3 }} variant="h4">
-          Control de usuarios
-        </Typography>
+      
+          {dataUser&& dataUser.role=="Administrador"?  <AddUsers />:  ""}
+          {dataUser&& dataUser.role=="Administrador"?  <UserCards />:  ""}
+      
 
-        <Paper elevation={3} sx={{ mt: 4 }}>
-          <Grid container spacing={1} sx={{ p: 3 }} component="form">
-            <Grid item xs={6}>
-              <InputLabel id="name" >Nombre</InputLabel>
-              <TextField fullWidth id="name" label="" variant="outlined" />
-            </Grid>
-            <Grid item xs={6}>
-              <InputLabel id="username">Usuario</InputLabel>
-              <TextField fullWidth id="username" variant="outlined" />
-            </Grid>
-            <Grid item xs={6}>
-              <InputLabel id="password">Contraseña</InputLabel>
-              <TextField
-                fullWidth
-                id="password"
-                variant="outlined"
-                type="password"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <InputLabel id="select-label">Rol</InputLabel>
-
-              <Select
-                fullWidth
-                labelId="select-label"
-                id="demo-select-small"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem value={1}>Admin</MenuItem>
-                <MenuItem value={2}>Usuario comun</MenuItem>
-              </Select>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Button variant="contained"> Guardar</Button>
-            </Grid>
-          </Grid>
-        </Paper>
-
-        <Divider />
-
-        <Grid container spacing={3}>
-          {listUsers.map((item) => (
-            <Grid item>
-              <UserCards key={item.name} data={item}></UserCards>
-            </Grid>
-          ))}
-        </Grid>
+      
       </Box>
     </>
   );

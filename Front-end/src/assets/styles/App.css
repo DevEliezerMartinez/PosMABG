@@ -22,3 +22,7 @@
 .bckgLogin{
   background-image: url("../images/mabg.jpeg") !important;
 }
+
+.formatInputs{
+  padding: 3px !important;
+}

@@ -22,10 +22,11 @@ function Aside({ Tabs }) {
 
   return (
     <>
-      <Container
+      <Box
         theme={theme}
         sx={{
           height:"100vh",
+          overflow: "hidden",
           backgroundColor: "#F79009",
           width: "20%",
           position: "absolute",
@@ -33,7 +34,7 @@ function Aside({ Tabs }) {
           color: "white",
         }}
       >
-        <Typography sx={{ margin: 2 }} align="center" variant="h3">
+        <Typography sx={{ margin: 2 }} align="center" variant="h4">
           MAGB
         </Typography>
         <Typography
@@ -73,7 +74,7 @@ function Aside({ Tabs }) {
             ></SimpleTab>
           ))}
         </Container>
-      </Container>
+      </Box>
     </>
   );
 }
