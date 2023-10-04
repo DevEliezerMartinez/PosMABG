@@ -1,9 +1,10 @@
-import React from "react";
-import mabg from "../assets/images/mabg.jpeg";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "../features/Info/listUsers";
+
 import {
   Avatar,
-  Box,
   Grid,
   Button,
   CardContent,
@@ -16,40 +17,69 @@ import {
   DialogActions,
 } from "@mui/material";
 
-const listUsers = [
-  {
-    name: "eliezer",
-    role: "admin",
-    pictureUrl: mabg
-  },
-  {
-    name: "mera",
-    role: "user",
-  },
-];
-
 function UserCards() {
-  const [open, setOpen] = React.useState(false);
-  const dataUser = useSelector((state) => state.userData.infoUser);
+  const dispatch = useDispatch(); // Obtiene la función `dispatch` de Redux
+  const counterValue = useSelector((state) => state.listUsers.counter); // Obtiene el valor del contador del estado
 
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [listUsers, setListUsers] = useState([
+    { username: "", role: "", picture: "" },
+  ]);
+  const [dialogOpen, setDialogOpen] = useState(
+    Array(listUsers.length).fill(false)
+  );
+
+  let url = "http://localhost:5000/users";
+
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .catch((error) => console.log("Errors:", error))
+      .then((response) => {
+        setListUsers(response.data);
+      });
+  }, [counterValue]);
+
+  const handleDialogOpen = (index) => {
+    const updatedDialogOpen = [...dialogOpen];
+    updatedDialogOpen[index] = true;
+    setDialogOpen(updatedDialogOpen);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleDialogClose = (index) => {
+    const updatedDialogOpen = [...dialogOpen];
+    updatedDialogOpen[index] = false;
+    setDialogOpen(updatedDialogOpen);
   };
+
+  const delateUser = (user) => {
+    let url = "http://localhost:5000/deleteUser";
+    let infoUser = { username: user };
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(infoUser),
+    })
+      .then((res) => res.json())
+      .catch((error) => console.log("Errors:", error))
+      .then((response) => {});
+  };
+
   return (
     <div>
       <>
+      
+       
+
         <Typography sx={{ marginTop: 3, marginBottom: "0" }} variant="h4">
           Total de usuarios
         </Typography>
 
         <Grid container spacing={3}>
-          {listUsers.map((item) => (
-            <Grid item>
+          {listUsers.map((user, index) => (
+            <Grid item sx={{ justifyContent: "space-evenly" }} key={index}>
               <>
                 <Paper
                   sx={{
@@ -61,23 +91,26 @@ function UserCards() {
                     alignItems: "center",
                   }}
                 >
-                  <Avatar sx={{ width: 80, height: 80 }} src={item.pictureUrl}></Avatar>
+                  <Avatar
+                    sx={{ width: 80, height: 80 }}
+                    src={`data:image/jpeg;base64,${user.picture}`}
+                  ></Avatar>
                   <CardContent>
-                    <Typography>Usuario: {item.name}</Typography>
-                    <Typography>Rol: {item.role}</Typography>
+                    <Typography>Usuario: {user.username}</Typography>
+                    <Typography>Rol: {user.role}</Typography>
                   </CardContent>
 
                   <div>
                     <Button
                       variant="contained"
                       color="error"
-                      onClick={handleClickOpen}
+                      onClick={() => handleDialogOpen(index)}
                     >
                       Eliminar
                     </Button>
                     <Dialog
-                      open={open}
-                      onClose={handleClose}
+                      open={dialogOpen[index]}
+                      onClose={() => handleDialogClose(index)}
                       aria-labelledby="alert-dialog-title"
                       aria-describedby="alert-dialog-description"
                     >
@@ -86,14 +119,23 @@ function UserCards() {
                       </DialogTitle>
                       <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                          Esta accion es irrevocable, hagalo si esta
+                          Esta acción es irrevocable, hágalo si está
                           completamente seguro.
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={handleClose}>Cancelar</Button>
+                        <Button onClick={() => handleDialogClose(index)}>
+                          Cancelar
+                        </Button>
                         <Button
-                          onClick={handleClose}
+                          id="delete"
+                          onClick={() => {
+                            handleDialogClose(index);
+                            // Aquí puedes realizar la lógica de eliminación del usuario
+                            console.log(`Eliminando usuario: ${user.username}`);
+                            delateUser(user.username);
+                            dispatch(update(1));
+                          }}
                           variant="contained"
                           color="error"
                           autoFocus

@@ -1,45 +1,55 @@
 import React from "react";
 import InputLabel from "@mui/material/InputLabel";
+import { useForm } from "react-hook-form";
 
-import {
-  Avatar,
-  Box,
-  Grid,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Container,
-  Divider,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-  Typography,
-  FormControl,
-} from "@mui/material";
-
+import { Grid, Button, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 
 import { useState } from "react";
-import UserCards from "./UserCards";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "../features/Info/listUsers";
 
-function AdminScreen({ listUsers }) {
-  const [open, setOpen] = React.useState(false);
+function AdminScreen() {
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const dispatch = useDispatch(); // Obtiene la función `dispatch` de Redux
+  const counterValue = useSelector((state) => state.listUsers.counter); // Obtiene el valor del contador del estado
+
+ 
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [rol, setRol] = useState("");
+  const [message, setMessage] = useState(""); // Estado para almacenar el mensaje de error
+
+  const notistack = (message) => {
+    setMessage(message); // Actualizar el mensaje de error
   };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const [age, setAge] = useState("");
-
+ 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setRol(event.target.value);
+  };
+
+  const onSubmit = (data) => {
+    dispatch(update(1));
+    let url = "http://localhost:5000/addUsers";
+    data.rol = rol; // Asignar el valor actual de "rol" al campo "rol" en "data"
+
+    console.log("datos a enviar: ",data)
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .catch((error) => console.log("Errors:", error))
+      .then((response) => {
+
+        console.log("---",response)
+        
+
+        
+      });
+   
   };
 
   return (
@@ -49,11 +59,23 @@ function AdminScreen({ listUsers }) {
       </Typography>
 
       <Paper elevation={3} sx={{ mt: 4, maxWidth: "90%", margin: "auto" }}>
-        <Grid container spacing={1} sx={{ p: 3 }} component="form">
-          <Grid item xs={6} sx={{ maxHeight: "10px" }}>
+        <Grid container spacing={1} sx={{ p: 3 }} component="form" onSubmit={handleSubmit(onSubmit)}>
+          <Grid component="form" item xs={6} sx={{ maxHeight: "10px" }}>
             <InputLabel id="name">Nombre</InputLabel>
 
-            <TextField fullWidth size="small"></TextField>
+            <TextField
+              fullWidth
+              size="small"
+              {...register("usuario", {
+                required: {
+                  value: true,
+                  message: "Este campo es requerido",
+                },
+               
+              })}
+              error={!!errors.usuario}
+              helperText={errors.usuario?.message || ""}
+            ></TextField>
           </Grid>
           <Grid item xs={6}>
             <InputLabel id="username">Usuario</InputLabel>
@@ -62,6 +84,18 @@ function AdminScreen({ listUsers }) {
               fullWidth
               id="username"
               variant="outlined"
+              {...register("username", {
+                required: {
+                  value: true,
+                  message: "Este campo es requerido",
+                },
+                pattern: {
+                  value: /^[a-zA-Z0-9_.-]+$/,
+                  message: "Caracteres no válidos",
+                },
+              })}
+              error={!!errors.usuario}
+              helperText={errors.usuario?.message || ""}
             />
           </Grid>
           <Grid item xs={6}>
@@ -72,6 +106,18 @@ function AdminScreen({ listUsers }) {
               id="password"
               variant="outlined"
               type="password"
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "Este campo es requerido",
+                },
+                pattern: {
+                  value: /^[a-zA-Z0-9_.-]+$/,
+                  message: "Caracteres no válidos",
+                },
+              })}
+              error={!!errors.usuario}
+              helperText={errors.usuario?.message || ""}
             />
           </Grid>
           <Grid item xs={6}>
@@ -82,22 +128,28 @@ function AdminScreen({ listUsers }) {
               fullWidth
               labelId="select-label"
               id="demo-select-small"
-              value={age}
-              label="Age"
+              value={rol}
+              label="rol"
               onChange={handleChange}
+              required
             >
               <MenuItem value={1}>Admin</MenuItem>
-              <MenuItem value={2}>Usuario comun</MenuItem>
+              <MenuItem value={3}>Usuario común</MenuItem>
             </Select>
           </Grid>
 
           <Grid item xs={6}>
-            <Button variant="contained"> Guardar</Button>
+            <Button variant="contained" type="submit">Guardar</Button>
           </Grid>
         </Grid>
       </Paper>
 
-    
+      {message && (
+        <div>
+          {/* Aquí puedes mostrar la alerta */}
+          <p>{message}</p>
+        </div>
+      )}
     </>
   );
 }

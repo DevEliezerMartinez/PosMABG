@@ -16,6 +16,8 @@ function Login() {
   const navigate = useNavigate(); // Utiliza useNavigate en lugar de useHistory
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  
   const dispatch = useDispatch();
   const elemento = useSelector((state) => state.userData.infoUser);
 

@@ -45,9 +45,9 @@ function Aside({ Tabs }) {
           Punto de venta
         </Typography>
 
-        <Paper sx={{ backgroundColor: "#F9AD49", my: 4, borderRadius: "6px",  color: "white", }}>
+        <Paper sx={{ backgroundColor: "#F9AD49", my: 4, borderRadius: "6px",  color: "white", maxWidth: "80%", margin: "auto" }}>
           <Box sx={{ padding: 2, display: "flex", alignItems: "center" }}>
-            <Avatar sx={{ width: 80, height: 80 }} src={imagenSrc}></Avatar>
+            <Avatar sx={{ width: 60, height: 60 }} src={imagenSrc}></Avatar>
             <Box flexGrow="1">
               <Typography
                 textAlign="center"
