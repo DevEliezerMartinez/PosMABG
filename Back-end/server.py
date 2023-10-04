@@ -13,6 +13,77 @@ def index():
     return 'Index Page'
 
 
+@app.route('/deleteUser', methods=['DELETE'])
+def delete_user():
+    print("Petición DELETE")
+    
+    try:
+        data = request.get_json()
+        username = data['username']
+        
+        conn = sqlite3.connect('../Back-end/Database/MABG.db')
+        cursor = conn.cursor()
+        
+        # Verifica si el usuario existe antes de eliminarlo
+        cursor.execute("SELECT * FROM Users WHERE username=?", (username,))
+        user = cursor.fetchone()
+        
+        if user:
+            cursor.execute("DELETE FROM Users WHERE username=?", (username,))
+            conn.commit()  # Guarda los cambios en la base de datos
+            conn.close()
+            return jsonify({"status": "Elemento eliminado"})
+        else:
+            conn.close()
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+    except sqlite3.Error as e:
+        return jsonify({'error': str(e)}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/users')
+def users():
+    print("peticion de users")
+    conn = sqlite3.connect('../Back-end/Database/MABG.db')
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT username, role_id, picture FROM Users")
+        users = cursor.fetchall()
+
+        roles = ["Administrador" if user[1] <= 2 else "Usuario" for user in users]
+
+        user_info = []
+
+        for user, role in zip(users, roles):
+            username, _, picture_path = user
+
+
+            if picture_path is None:
+                picture_path = "/home/eliezercode/Documents/VSC/Proyecto MABG/Back-end/pictures/user/user.png"
+
+
+
+            with open(picture_path, "rb") as image_file:
+                picture_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+
+            user_info.append({
+                "username": username,
+                "role": role,
+                "picture": picture_base64
+            })
+
+        return jsonify({"data": user_info})
+
+    except sqlite3.Error as e:
+        return jsonify({'error': str(e)}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+    finally:
+        conn.close()
+
 @app.route('/login', methods=['POST'])
 def login():
 
@@ -54,6 +125,42 @@ def login():
         return jsonify({'error': str(e)}), 500
     finally:
         conn.close()
+
+
+
+
+@app.route('/addUsers', methods=['POST'])
+def addUsers():
+
+    print("peticion de addUsers")
+
+    conn = sqlite3.connect('../Back-end/Database/MABG.db')
+    cursor = conn.cursor()
+
+    try:
+        data = request.get_json()
+        name = data['usuario']
+        username = data['username']
+        password = data['password']
+        rol = data['rol']
+
+        print("data: ", name, username, password, rol)
+
+        cursor.execute("INSERT INTO Users(name, role_id, password, username) VALUES (?, ?, ?, ?)", (name, rol, password, username))
+        conn.commit()
+        conn.close()
+        print("Finished correctly")
+        return jsonify({ 'mensaje': 'Registro de usuario correcto'}, 200)
+
+
+    except sqlite3.Error as e:
+        print("error", e)
+        return jsonify({'error': str(e)}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        conn.close()
+
 
 
 if __name__ == '__main__':
