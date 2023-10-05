@@ -73,7 +73,7 @@ function Profile() {
             component="img"
             sx={{ width: 151, height: 151 }}
             image={imagenSrc}
-            alt="Live from space album cover"
+            alt="Imagen de usuario no disponible"
           ></CardMedia>
           <CardContent
             sx={{ width: "70%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}

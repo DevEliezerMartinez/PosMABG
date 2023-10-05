@@ -16,18 +16,18 @@ def index():
 @app.route('/deleteUser', methods=['DELETE'])
 def delete_user():
     print("Petición DELETE")
-    
+
     try:
         data = request.get_json()
         username = data['username']
-        
+
         conn = sqlite3.connect('../Back-end/Database/MABG.db')
         cursor = conn.cursor()
-        
+
         # Verifica si el usuario existe antes de eliminarlo
         cursor.execute("SELECT * FROM Users WHERE username=?", (username,))
         user = cursor.fetchone()
-        
+
         if user:
             cursor.execute("DELETE FROM Users WHERE username=?", (username,))
             conn.commit()  # Guarda los cambios en la base de datos
@@ -42,6 +42,7 @@ def delete_user():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/users')
 def users():
     print("peticion de users")
@@ -52,21 +53,20 @@ def users():
         cursor.execute("SELECT username, role_id, picture FROM Users")
         users = cursor.fetchall()
 
-        roles = ["Administrador" if user[1] <= 2 else "Usuario" for user in users]
+        roles = ["Administrador" if user[1] <=
+                 2 else "Usuario" for user in users]
 
         user_info = []
 
         for user, role in zip(users, roles):
             username, _, picture_path = user
 
-
             if picture_path is None:
                 picture_path = "/home/eliezercode/Documents/VSC/Proyecto MABG/Back-end/pictures/user/user.png"
 
-
-
             with open(picture_path, "rb") as image_file:
-                picture_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+                picture_base64 = base64.b64encode(
+                    image_file.read()).decode("utf-8")
 
             user_info.append({
                 "username": username,
@@ -84,6 +84,7 @@ def users():
     finally:
         conn.close()
 
+
 @app.route('/login', methods=['POST'])
 def login():
 
@@ -93,22 +94,31 @@ def login():
     cursor = conn.cursor()
 
     try:
+        print("peticion de login")
         data = request.get_json()
         username = data['usuario']
         password = data['password']
 
+        print(username)
+        print(password)
+
         cursor.execute("SELECT * FROM Users WHERE username=?", (username,))
         user = cursor.fetchone()
-        print(user)
 
         if not user:
             print("no user ")
             return jsonify({'mensaje': 'No existe ese usuario'}), 404
-        
-        rol = "Administrador" if user[3] <=2  else "Usuario"
-        with open(user[2], "rb") as image_file:
-          image_binary = base64.b64encode(image_file.read()).decode("utf-8")
 
+        rol = "Administrador" if user[3] <= 2 else "Usuario"
+
+        if user[2] is not None:
+            with open(user[2], "rb") as image_file:
+                image_binary = base64.b64encode(
+                    image_file.read()).decode("utf-8")
+
+        else:
+            # Si user[2] es nulo, puedes asignar una imagen por defecto o manejarlo de acuerdo a tu lógica
+            image_binary = None  # O asigna una imagen por defecto si lo prefieres
 
         user_data = {'name': user[1], 'pictureUrl': image_binary,
                      'role': rol, 'username': user[5]}
@@ -119,14 +129,13 @@ def login():
         return jsonify({'mensaje': 'Inicio de sesion fallido'}), 401
 
     except sqlite3.Error as e:
-
+        print("sqlite: ", e)
         return jsonify({'error': str(e)}), 500
     except Exception as e:
+        print("exeption: ", e)
         return jsonify({'error': str(e)}), 500
     finally:
         conn.close()
-
-
 
 
 @app.route('/addUsers', methods=['POST'])
@@ -146,12 +155,12 @@ def addUsers():
 
         print("data: ", name, username, password, rol)
 
-        cursor.execute("INSERT INTO Users(name, role_id, password, username) VALUES (?, ?, ?, ?)", (name, rol, password, username))
+        cursor.execute("INSERT INTO Users(name, role_id, password, username) VALUES (?, ?, ?, ?)",
+                       (name, rol, password, username))
         conn.commit()
         conn.close()
         print("Finished correctly")
-        return jsonify({ 'mensaje': 'Registro de usuario correcto'}, 200)
-
+        return jsonify({'mensaje': 'Registro de usuario correcto'}, 200)
 
     except sqlite3.Error as e:
         print("error", e)
@@ -160,7 +169,6 @@ def addUsers():
         return jsonify({'error': str(e)}), 500
     finally:
         conn.close()
-
 
 
 if __name__ == '__main__':

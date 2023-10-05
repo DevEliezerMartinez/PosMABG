@@ -1,15 +1,22 @@
-import { Avatar, Box, Container, Paper, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-
+import { updateData, deleteData } from "../features/Auth/AuthSlice";
+import { NavLink } from "react-router-dom";
 
 import React from "react";
 import Activetab from "./Activetab";
 import SimpleTab from "./simpleTab";
-import UserPicture from "../assets/images/user.jpg";
-
 
 function Aside({ Tabs }) {
+  const dispatch = useDispatch();
   const elemento = useSelector((state) => state.userData.infoUser);
   const imagenBase64 = elemento.pictureUrl;
   const imagenSrc = `data:image/png;base64, ${imagenBase64}`;
@@ -25,7 +32,7 @@ function Aside({ Tabs }) {
       <Box
         theme={theme}
         sx={{
-          height:"100vh",
+          height: "100vh",
           overflow: "hidden",
           backgroundColor: "#F79009",
           width: "20%",
@@ -37,6 +44,7 @@ function Aside({ Tabs }) {
         <Typography sx={{ margin: 2 }} align="center" variant="h4">
           MAGB
         </Typography>
+
         <Typography
           align="center"
           variant="body1"
@@ -45,7 +53,16 @@ function Aside({ Tabs }) {
           Punto de venta
         </Typography>
 
-        <Paper sx={{ backgroundColor: "#F9AD49", my: 4, borderRadius: "6px",  color: "white", maxWidth: "80%", margin: "auto" }}>
+        <Paper
+          sx={{
+            backgroundColor: "#F9AD49",
+            my: 4,
+            borderRadius: "6px",
+            color: "white",
+            maxWidth: "80%",
+            margin: "auto",
+          }}
+        >
           <Box sx={{ padding: 2, display: "flex", alignItems: "center" }}>
             <Avatar sx={{ width: 60, height: 60 }} src={imagenSrc}></Avatar>
             <Box flexGrow="1">
@@ -73,6 +90,26 @@ function Aside({ Tabs }) {
               path={item.path}
             ></SimpleTab>
           ))}
+        </Container>
+
+        <Container sx={{ margin: "auto", flexGrow: 1 }}>
+          <Button
+           component = { NavLink }
+            sx={{
+              width: "-webkit-fill-available",
+              border: "1px dashed red",
+              color: "white",
+            }}
+            color="error"
+            variant="outlined"
+            onClick={() => {
+             
+              to = "/login";
+              dispatch(updateData(""));
+            }}
+          >
+            Cerrar sesión
+          </Button>
         </Container>
       </Box>
     </>

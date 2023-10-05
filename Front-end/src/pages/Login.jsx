@@ -39,6 +39,7 @@ function Login() {
   } = useForm();
 
   const onSubmit = (data) => {
+    console.log(data)
     let url = "http://localhost:5000/login";
 
     fetch(url, {
@@ -53,6 +54,7 @@ function Login() {
       .then((response) => {
 
         if (response[1] != 200) {
+          console.log(response)
           notistack(response.mensaje);
 
         }
