@@ -30,11 +30,7 @@ function Profile() {
   const imagenBase64 = dataUser.pictureUrl;
   const imagenSrc = `data:image/png;base64, ${imagenBase64}`;
 
-  const [age, setAge] = React.useState("");
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   return (
     <>

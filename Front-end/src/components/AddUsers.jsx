@@ -5,13 +5,12 @@ import { useForm } from "react-hook-form";
 import { Grid, Button, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { update } from "../features/Info/listUsers";
 
 function AdminScreen() {
 
   const dispatch = useDispatch(); // Obtiene la función `dispatch` de Redux
-  const counterValue = useSelector((state) => state.listUsers.counter); // Obtiene el valor del contador del estado
 
  
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -145,12 +144,7 @@ function AdminScreen() {
         </Grid>
       </Paper>
 
-      {message && (
-        <div>
-          {/* Aquí puedes mostrar la alerta */}
-          <p>{message}</p>
-        </div>
-      )}
+      
     </>
   );
 }
