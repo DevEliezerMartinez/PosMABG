@@ -61,7 +61,7 @@ def users():
         for user, role in zip(users, roles):
             username, _, picture_path = user
 
-            if picture_path is None:
+            if user[2] is None:
                 picture_path = "/home/eliezercode/Documents/VSC/Proyecto MABG/Back-end/pictures/user/user.png"
 
             with open(picture_path, "rb") as image_file:
@@ -73,6 +73,7 @@ def users():
                 "role": role,
                 "picture": picture_base64
             })
+
 
         return jsonify({"data": user_info})
 
@@ -99,29 +100,38 @@ def login():
         username = data['usuario']
         password = data['password']
 
-        print(username)
-        print(password)
+        
 
         cursor.execute("SELECT * FROM Users WHERE username=?", (username,))
         user = cursor.fetchone()
 
         if not user:
-            print("no user ")
+          
             return jsonify({'mensaje': 'No existe ese usuario'}), 404
 
         rol = "Administrador" if user[3] <= 2 else "Usuario"
 
-        if user[2] is not None:
+        print("imagen:",user[2])
+        if  user[2] is None:
+                image_binary = "/home/eliezercode/Documents/VSC/Proyecto MABG/Back-end/pictures/user/user.png"
+                with open(image_binary, "rb") as image_file:
+                    image_binary = base64.b64encode(
+                        image_file.read()).decode("utf-8")
+                    
+                
+
+        else:
             with open(user[2], "rb") as image_file:
                 image_binary = base64.b64encode(
                     image_file.read()).decode("utf-8")
 
-        else:
-            # Si user[2] es nulo, puedes asignar una imagen por defecto o manejarlo de acuerdo a tu lógica
-            image_binary = None  # O asigna una imagen por defecto si lo prefieres
 
+        
+            
         user_data = {'name': user[1], 'pictureUrl': image_binary,
                      'role': rol, 'username': user[5]}
+        
+        
 
         if user[4] == password:
             return jsonify({'user_data': user_data,  'mensaje': 'Inicio de sesion correctamente'}, 200)
