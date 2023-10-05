@@ -39,7 +39,7 @@ function Login() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data)
+    
     let url = "http://localhost:5000/login";
 
     fetch(url, {
@@ -54,12 +54,12 @@ function Login() {
       .then((response) => {
 
         if (response[1] != 200) {
-          console.log(response)
+          console.error(response)
           notistack(response.mensaje);
 
         }
         
-        console.log("---",response[0].user_data)
+       
          let fullUserData = response[0].user_data;
         dispatch(updateData(fullUserData));
         navigate("/sale"); // Utiliza navigate en lugar de history.push
@@ -138,6 +138,7 @@ function Login() {
                   sx={{ mt: 3 }}
                   type="password"
                   label="Password"
+                  autoComplete="false"
                   {...register("password", {
                     required: {
                       value: true,

@@ -21,7 +21,6 @@ function UserCards() {
   const dispatch = useDispatch(); // Obtiene la función `dispatch` de Redux
   const counterValue = useSelector((state) => state.listUsers.counter); // Obtiene el valor del contador del estado
 
-
   const [listUsers, setListUsers] = useState([
     { username: "", role: "", picture: "" },
   ]);
@@ -70,9 +69,6 @@ function UserCards() {
   return (
     <div>
       <>
-      
-       
-
         <Typography sx={{ marginTop: 3, marginBottom: "0" }} variant="h4">
           Total de usuarios
         </Typography>

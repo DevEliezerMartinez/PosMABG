@@ -60,7 +60,7 @@ function AdminScreen() {
 
       <Paper elevation={3} sx={{ mt: 4, maxWidth: "90%", margin: "auto" }}>
         <Grid container spacing={1} sx={{ p: 3 }} component="form" onSubmit={handleSubmit(onSubmit)}>
-          <Grid component="form" item xs={6} sx={{ maxHeight: "10px" }}>
+          <Grid  item xs={6} sx={{ maxHeight: "10px" }}>
             <InputLabel id="name">Nombre</InputLabel>
 
             <TextField
@@ -99,8 +99,9 @@ function AdminScreen() {
             />
           </Grid>
           <Grid item xs={6}>
-            <InputLabel id="password">Contraseña</InputLabel>
+            <InputLabel  id="password">Contraseña</InputLabel>
             <TextField
+              autoComplete="false"
               size="small"
               fullWidth
               id="password"
